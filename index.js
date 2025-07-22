@@ -1,39 +1,19 @@
-import express from "express"
-const port = 5000;
+import express from "express";
+
+import { UserRoutes } from "./routes/user.js";
+import { courseRoutes } from "./routes/course.js";
 
 const app = express();
+const port = 5000;
 
+app.get("/test", (req, res) => {
+  res.send("hello world");
+});
 
-app.get('/test', (req, res) => {
-    res.send("hello world")
-})
+UserRoutes(app);
 
-
-app.post('/user/signup', (req, res) => {
-    res.json({
-        message: "Signup endpoint"
-    })
-})
-app.post('/user/signin', (req, res) => {
-    res.json({
-        message: "Signup endpoint"
-    });
-})
-
-app.get('/user/purchases', (req, res) => {
-    res.json({
-        message: "Signup endpoint"
-    });
-})
-
-
-app.post('/course/purchases', (req, res) => {
-    res.json({
-        message: "Signup endpoint"
-    });
-
-})
+courseRoutes(app);
 
 app.listen(port, () => {
-    console.log(`Example app listing on port ${port}`)
-})
+  console.log(`Example app listing on port ${port}`);
+});
