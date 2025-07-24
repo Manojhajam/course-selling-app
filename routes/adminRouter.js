@@ -4,13 +4,13 @@ const adminRouter = express.Router()
 
 adminRouter.post("/signup", (req, res) => {
     res.json({
-        message: "signup endpoin"
+        message: "signup endpoint"
     })
 })
 
 adminRouter.post("/signin", (req, res) => {
     res.json({
-        message: "signup endpoin"
+        message: "signin endpoint"
     })
 })
 
