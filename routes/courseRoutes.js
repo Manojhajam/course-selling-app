@@ -5,8 +5,8 @@ const courseRouter = express.Router();
 
 courseRouter.route("/purchase").post(courseRoutes);
 
-courseRouter.get('/preview', () => {
-    resizeBy.json({
+courseRouter.get('/preview', (req, res) => {
+    res.json({
         message: "Preview course"
     })
 })

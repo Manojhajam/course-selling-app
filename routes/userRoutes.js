@@ -1,14 +1,14 @@
 import express from 'express'
-import { Signup } from '../controllers/userControllers.js';
+import { Signup, Signin, Purchase } from '../controllers/userControllers.js';
 
 const userRouter = express.Router();
 
 userRouter.route('/signup')
 .get(Signup)
 userRouter.route('/signin')
-.post(Signup)
+.post(Signin)
 userRouter.route('/purchase')
-.post(Signup)
+.post(Purchase)
 
 
 export default userRouter;

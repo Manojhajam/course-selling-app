@@ -4,7 +4,7 @@ export const Signup = (req, res) => {
     });
 }
 
-export const signin = (req, res) => {
+export const Signin = (req, res) => {
     res.json({
         message: "Signin endpoint"
     });
