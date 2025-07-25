@@ -1,36 +1,39 @@
-import mongoose, {Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
+const ObjectId = mongoose.Types.ObjectId;
+
+mongoose.connect("mongodb://localhost:27017/course-app");
+console.log("Connected to DB", mongoose.connection.name);
 
 const userSchema = Schema({
-    email: String,
-    password: String,
-    passsword: String,
-    firstName: String,
-    lastName: String
-})
+  email: { type: String, unique: true },
+  password: String,
+  firstName: String,
+  lastName: String
+});
 
 const adminSchema = Schema({
-  email: String,
+  email: { type: String, unique: true },
   password: String,
-  passsword: String,
   firstName: String,
   lastName: String
 });
 
 const courseSchema = Schema({
-    title: String,
-    description: String,
-    price: Number,
-    imageurl: String,
-    createrId: String
-
-})
+  title: String,
+  description: String,
+  price: Number,
+  imageUrl: String,
+  creatorId: ObjectId
+});
 
 const purchaseSchema = Schema({
-    courseId: String,
-    userId: String,
-})
+  courseId: ObjectId,
+  userId: ObjectId
+});
 
-const userModel = mongoose.Model("user",userSchema)
-const adminModel = mongoose.Model("admin",adminSchema)
-const courseModel = mongoose.Model("course",courseSchema)
-const purchaseModel = mongoose.Model("purchase",purchaseSchema)
+const userModel = mongoose.model("user", userSchema);
+const adminModel = mongoose.model("admin", adminSchema);
+const courseModel = mongoose.model("course", courseSchema);
+const purchaseModel = mongoose.model("purchase", purchaseSchema);
+
+export { userModel, adminModel, courseModel, purchaseModel };

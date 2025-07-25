@@ -1,3 +1,5 @@
+import { userModel } from "../db.js";
+
 export const Signup = (req, res) => {
     res.json({
         message: "Signup endpoint"
