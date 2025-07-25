@@ -1,24 +1,25 @@
+
 import mongoose, { Schema } from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
 
-mongoose.connect("mongodb://localhost:27017/course-app");
-console.log("Connected to DB", mongoose.connection.name);
 
-const userSchema = Schema({
+
+
+const userSchema = new Schema({
   email: { type: String, unique: true },
   password: String,
   firstName: String,
   lastName: String
 });
 
-const adminSchema = Schema({
+const adminSchema = new Schema({
   email: { type: String, unique: true },
   password: String,
   firstName: String,
   lastName: String
 });
 
-const courseSchema = Schema({
+const courseSchema = new Schema({
   title: String,
   description: String,
   price: Number,
@@ -26,7 +27,7 @@ const courseSchema = Schema({
   creatorId: ObjectId
 });
 
-const purchaseSchema = Schema({
+const purchaseSchema = new Schema({
   courseId: ObjectId,
   userId: ObjectId
 });
