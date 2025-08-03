@@ -8,6 +8,8 @@ import userRouter from "./routes/userRoutes.js"
 import adminRouter from "./routes/adminRouter.js"
 
 const app = express();
+
+app.use(express.json());
 const port = 5000;
 
 app.get("/test", (req, res) => {
@@ -17,6 +19,8 @@ app.get("/test", (req, res) => {
 app.use("/api/v1/user", userRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use("/api/v1/course", courseRouter);
+
+app.use(express.json())
 
 async function main() {
   //use dotenv
@@ -29,3 +33,4 @@ console.log("Connected to DB", response.connection.name);
 }
 
 main()
+// 29:30
