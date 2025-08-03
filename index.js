@@ -19,6 +19,7 @@ app.use('/api/v1/admin', adminRouter);
 app.use("/api/v1/course", courseRouter);
 
 async function main() {
+  //use dotenv
  const response =  await mongoose.connect("mongodb://localhost:27017/course-app");
 console.log("Connected to DB", response.connection.name);
 

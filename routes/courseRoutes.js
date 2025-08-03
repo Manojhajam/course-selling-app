@@ -1,8 +1,10 @@
-import express, { Router } from "express";
+ import express, { Router } from "express";
 import { courseRoutes } from "../controllers/courseControllers.js";
 
 const courseRouter = express.Router();
 
+
+//you would expect the user to pay money
 courseRouter.route("/purchase").post(courseRoutes);
 
 courseRouter.get('/preview', (req, res) => {

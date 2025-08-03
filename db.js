@@ -1,9 +1,5 @@
-
-import mongoose, { Schema } from "mongoose";
+ import mongoose, { Schema } from "mongoose";
 const ObjectId = mongoose.Types.ObjectId;
-
-
-
 
 const userSchema = new Schema({
   email: { type: String, unique: true },

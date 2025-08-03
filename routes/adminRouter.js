@@ -14,10 +14,22 @@ adminRouter.post("/signin", (req, res) => {
     })
 })
 
+
+//  /api/v1/admin
 adminRouter.post("/course", (req, res) => {
     res.json({
         message: "course endpoint"
     })
 })
+adminRouter.put("/course", (req, res) => {
+  res.json({
+    message: "course endpoint",
+  });
+});
+adminRouter.get("/course/bulk", (req, res) => {
+  res.json({
+    message: "course endpoint",
+  });
+});
 
 export default adminRouter;
