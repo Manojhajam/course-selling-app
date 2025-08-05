@@ -1,35 +1,14 @@
 import { Router } from "express";
 import express from 'express'
 const adminRouter = express.Router()
+import {Signin, Signup, createCourse, updateCourse, courseBulk} from "../controllers/adminControllers.js"
 
-adminRouter.post("/signup", (req, res) => {
-    res.json({
-        message: "signup endpoint"
-    })
-})
+adminRouter.route("/signup").post(Signup)
+adminRouter.route("/signin").post(Signin)
+adminRouter.route("/course")
+  .post(createCourse)
+  .put(updateCourse)
+  .get(courseBulk)
 
-adminRouter.post("/signin", (req, res) => {
-    res.json({
-        message: "signin endpoint"
-    })
-})
-
-
-//  /api/v1/admin
-adminRouter.post("/course", (req, res) => {
-    res.json({
-        message: "course endpoint"
-    })
-})
-adminRouter.put("/course", (req, res) => {
-  res.json({
-    message: "course endpoint",
-  });
-});
-adminRouter.get("/course/bulk", (req, res) => {
-  res.json({
-    message: "course endpoint",
-  });
-});
 
 export default adminRouter;

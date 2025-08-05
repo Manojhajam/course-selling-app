@@ -35,10 +35,8 @@ export const Signin = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await userModel.findOne({
-    email,
-    email,
-    password,
-    password,
+    email:email,
+    password:password,
   });
 
   // ideally password should be hashed, and hence you can't compare the user provided passsword and the database password
