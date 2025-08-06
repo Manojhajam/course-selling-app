@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt"
 import { adminModel } from "../db.js";
-const JWT_ADMIN_PASSWORD = "dfnhsdjks" 
+// import { JWT_ADMIN_PASSWORD } from "../config.js"
+import { JWT_ADMIN_PASSWORD } from "../config.js"
 import jwt from "jsonwebtoken"
 
 export const Signup = async (req, res) => {

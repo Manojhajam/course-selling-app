@@ -1,7 +1,7 @@
 import { userModel } from "../db.js";
 import jwt from "jsonwebtoken";
-const JWT_USER_PASSWORD = "aladld123";
 import bcrypt from "bcrypt";
+import { JWT_USER_PASSWORD } from "../config.js";
 
 export const Signup = async (req, res) => {
   const { email, password, lastName, firstName } = req.body; // do ZOD validation

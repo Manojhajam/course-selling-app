@@ -1,0 +1,4 @@
+const JWT_ADMIN_PASSWORD = "dfnhsdjks";
+const JWT_USER_PASSWORD = "aladld123";
+
+export { JWT_ADMIN_PASSWORD, JWT_USER_PASSWORD };
