@@ -78,12 +78,36 @@ export const createCourse = async (req, res) => {
     
 }
 export const updateCourse = async (req, res) => {
-  const adminId = req.userId;
-  const _id = req.body;
-  await courseModel.findByIdAndUpdate()
+    const adminId = req.userId;
+
+    //Youtube video for creating a web3 saas in 6 hours (for imageUrl)
+  const { title, description, imageUrl, price, courseId } = req.body;
+  
+  const course = await courseModel.findOne({
+    _id: courseId,
+    creatorId: adminId     //course belogs to same admin
+  },{
+      tittle: title,
+      description: description,
+      imageUrl: imageUrl,
+      price: price,
+    });
+    res.json({
+      message: "Course Updated",
+      courseId: course._id,
+    });
 
 }
 export const courseBulk = async (req, res) => {
-    
+  const adminId = req.userId;
+
+  const courses = await courseModel.findById({
+    createrId: adminId
+  });
+
+  res.json({
+    success: true,
+    courses: courses
+  })
 }
 
