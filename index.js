@@ -33,4 +33,4 @@ console.log("Connected to DB", response.connection.name);
 }
 
 main()
-// 40:00
+// 48:00

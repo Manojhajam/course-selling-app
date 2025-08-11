@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt"
-import { adminModel } from "../db.js";
+import { adminModel, courseModel } from "../db.js";
 // import { JWT_ADMIN_PASSWORD } from "../config.js"
 import { JWT_ADMIN_PASSWORD } from "../config.js"
 import jwt from "jsonwebtoken"
@@ -60,6 +60,21 @@ export const Signin = async (req, res) => {
   //Do cookie login instead of token based in future
 }
 export const createCourse = async (req, res) => {
+  const adminId = req.userId;
+
+  //Youtube video for creating a web3 saas in 6 hours (for imageUrl)
+  const { title, description, imageUrl, price } = req.body;
+  const course = await courseModel.create({
+    tittle: title,
+    description: description,
+    imageUrl: imageUrl,
+    price: price,
+    creatorId:adminId
+  })
+  res.json({
+    message: "Course created",
+    courseId: course._id
+  })
     
 }
 export const updateCourse = async (req, res) => {
