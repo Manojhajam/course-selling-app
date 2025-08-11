@@ -78,7 +78,10 @@ export const createCourse = async (req, res) => {
     
 }
 export const updateCourse = async (req, res) => {
-    
+  const adminId = req.userId;
+  const _id = req.body;
+  await courseModel.findByIdAndUpdate()
+
 }
 export const courseBulk = async (req, res) => {
     
