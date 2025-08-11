@@ -1,5 +1,6 @@
 import express, { response } from "express";
 import mongoose from "mongoose";
+import dotenv from 'dotenv'
 
 
 
@@ -8,6 +9,7 @@ import userRouter from "./routes/userRoutes.js"
 import adminRouter from "./routes/adminRouter.js"
 
 const app = express();
+dotenv.config();
 
 app.use(express.json());
 const port = 5000;
@@ -24,7 +26,7 @@ app.use(express.json())
 
 async function main() {
   //use dotenv
- const response =  await mongoose.connect("mongodb://localhost:27017/course-app");
+ const response =  await mongoose.connect(process.env.MONGO_URL);
 console.log("Connected to DB", response.connection.name);
 
   app.listen(port, () => {
