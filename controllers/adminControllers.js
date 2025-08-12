@@ -1,18 +1,15 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 import { adminModel, courseModel } from "../db.js";
-// import { JWT_ADMIN_PASSWORD } from "../config.js"
+import { JWT_ADMIN_PASSWORD } from "../config.js";
+import jwt from "jsonwebtoken";
 
-import jwt from "jsonwebtoken"
-const JWT_ADMIN_PASSWORD = "jshhdjand";
 
 export const Signup = async (req, res) => {
+  // TO do: Password Hashed
 
-
-     // TO do: Password Hashed
-
-    //  const saltRounds = 10;
-    //  const salt = await bcrypt.genSalt(saltRounds);
-    //  const hashedPassword = await bcrypt.hash(password, salt);
+  //  const saltRounds = 10;
+  //  const salt = await bcrypt.genSalt(saltRounds);
+  //  const hashedPassword = await bcrypt.hash(password, salt);
 
   try {
     const { email, password, lastName, firstName } = req.body; // do ZOD validation
@@ -27,26 +24,28 @@ export const Signup = async (req, res) => {
       message: "Signup successed",
     });
   } catch (error) {
-       console.log(error);
-       res.json({
-         success: false,
-         message: error.message,
-       });
-     }
-}
+    console.log(error);
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 export const Signin = async (req, res) => {
   const { email, password } = req.body;
 
   const admin = await adminModel.findOne({
-    email:email,
-    password:password,
+    email: email,
+    password: password,
   });
 
   // ideally password should be hashed, and hence you can't compare the user provided passsword and the database password
   if (admin) {
-    const token = jwt.sign({
+    const token = jwt.sign(
+      {
         id: admin._id,
-      },JWT_ADMIN_PASSWORD
+      },
+      JWT_ADMIN_PASSWORD
     );
 
     res.json({
@@ -59,7 +58,7 @@ export const Signin = async (req, res) => {
   }
 
   //Do cookie login instead of token based in future
-}
+};
 export const createCourse = async (req, res) => {
   const adminId = req.userId;
 
@@ -70,20 +69,19 @@ export const createCourse = async (req, res) => {
     description: description,
     imageUrl: imageUrl,
     price: price,
-    creatorId:adminId
-  })
+    creatorId: adminId,
+  });
   res.json({
     message: "Course created",
-    courseId: course._id
-  })
-    
-}
+    courseId: course._id,
+  });
+};
 export const updateCourse = async (req, res) => {
-    const adminId = req.userId;
+  const adminId = req.userId;
 
-    //Youtube video for creating a web3 saas in 6 hours (for imageUrl)
+  //Youtube video for creating a web3 saas in 6 hours (for imageUrl)
   const { title, description, imageUrl, price, courseId } = req.body;
-  
+
   const course = await courseModel.findOneAndUpdate(
     {
       _id: courseId,
@@ -99,22 +97,20 @@ export const updateCourse = async (req, res) => {
       price: price,
     }
   );
-    res.json({
-      message: "Course Updated",
-      courseId: course._id,
-    });
-
-}
+  res.json({
+    message: "Course Updated",
+    courseId: course._id,
+  });
+};
 export const courseBulk = async (req, res) => {
   const adminId = req.userId;
 
   const courses = await courseModel.findById({
-    createrId: adminId
+    createrId: adminId,
   });
 
   res.json({
     success: true,
-    courses: courses
-  })
-}
-
+    courses: courses,
+  });
+};

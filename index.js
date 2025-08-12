@@ -1,15 +1,12 @@
 import express, { response } from "express";
 import mongoose from "mongoose";
-import dotenv from 'dotenv'
-
-
-
+// import dotenv from 'dotenv';
 import courseRouter from "./routes/courseRoutes.js";
 import userRouter from "./routes/userRoutes.js"
 import adminRouter from "./routes/adminRouter.js"
 
 const app = express();
-dotenv.config();
+// dotenv.config();
 
 app.use(express.json());
 const port = 5000;
@@ -23,6 +20,7 @@ app.use('/api/v1/admin', adminRouter);
 app.use("/api/v1/course", courseRouter);
 
 app.use(express.json())
+
 
 async function main() {
   //use dotenv
