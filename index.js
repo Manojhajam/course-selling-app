@@ -35,4 +35,4 @@ console.log("Connected to DB", response.connection.name);
 }
 
 main()
-// 48:00
+// 1:15:00    (look updatecourse nicely)

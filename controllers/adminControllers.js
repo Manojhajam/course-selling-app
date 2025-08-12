@@ -1,29 +1,32 @@
 import bcrypt from "bcrypt"
 import { adminModel, courseModel } from "../db.js";
 // import { JWT_ADMIN_PASSWORD } from "../config.js"
-import { JWT_ADMIN_PASSWORD } from "../config.js"
+
 import jwt from "jsonwebtoken"
+const JWT_ADMIN_PASSWORD = "jshhdjand";
 
 export const Signup = async (req, res) => {
-     const { email, password, lastName, firstName } = req.body; // do ZOD validation
+
 
      // TO do: Password Hashed
 
-     const saltRounds = 10;
-     const salt = await bcrypt.genSalt(saltRounds);
-     const hashedPassword = await bcrypt.hash(password, salt);
+    //  const saltRounds = 10;
+    //  const salt = await bcrypt.genSalt(saltRounds);
+    //  const hashedPassword = await bcrypt.hash(password, salt);
 
-     try {
-       await adminModel.create({
-         email: email,
-         password: hashedPassword,
-         lastName: lastName,
-         firstName: firstName,
-       });
-       res.json({
-         message: "Signup successed",
-       });
-     } catch (error) {
+  try {
+    const { email, password, lastName, firstName } = req.body; // do ZOD validation
+    await adminModel.create({
+      email: email,
+      password: password,
+      lastName: lastName,
+      firstName: firstName,
+    });
+
+    res.json({
+      message: "Signup successed",
+    });
+  } catch (error) {
        console.log(error);
        res.json({
          success: false,
@@ -41,11 +44,9 @@ export const Signin = async (req, res) => {
 
   // ideally password should be hashed, and hence you can't compare the user provided passsword and the database password
   if (admin) {
-    const token = jwt.sign(
-      {
+    const token = jwt.sign({
         id: admin._id,
-      },
-      JWT_ADMIN_PASSWORD
+      },JWT_ADMIN_PASSWORD
     );
 
     res.json({
@@ -83,15 +84,21 @@ export const updateCourse = async (req, res) => {
     //Youtube video for creating a web3 saas in 6 hours (for imageUrl)
   const { title, description, imageUrl, price, courseId } = req.body;
   
-  const course = await courseModel.findOne({
-    _id: courseId,
-    creatorId: adminId     //course belogs to same admin
-  },{
+  const course = await courseModel.findOneAndUpdate(
+    {
+      _id: courseId,
+      creatorId: adminId, //course belogs to same admin
+    },
+    {
+      new: true,
+    },
+    {
       tittle: title,
       description: description,
       imageUrl: imageUrl,
       price: price,
-    });
+    }
+  );
     res.json({
       message: "Course Updated",
       courseId: course._id,

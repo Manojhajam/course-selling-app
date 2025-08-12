@@ -1,21 +1,22 @@
 import { userModel } from "../db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { JWT_USER_PASSWORD } from "../config.js";
+// import { JWT_USER_PASSWORD } from "../config.js";
+const JWT_USER_PASSWORD = "dhjdsjk"
 
 export const Signup = async (req, res) => {
   const { email, password, lastName, firstName } = req.body; // do ZOD validation
 
   // TO do: Password Hashed
 
-  const saltRounds = 10;
-  const salt = await bcrypt.genSalt(saltRounds);
-  const hashedPassword = await bcrypt.hash(password, salt);
+  // const saltRounds = 10;
+  // const salt = await bcrypt.genSalt(saltRounds);
+  // const hashedPassword = await bcrypt.hash(password, salt);
 
   try {
     await userModel.create({
       email: email,
-      password: hashedPassword,
+      password: password,
       lastName: lastName,
       firstName: firstName,
     });
