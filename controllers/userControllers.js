@@ -1,4 +1,4 @@
-import { userModel } from "../db.js";
+import { purchaseModel, userModel } from "../db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 // import { JWT_USER_PASSWORD } from "../config.js";
@@ -42,10 +42,7 @@ export const Signin = async (req, res) => {
 
   // ideally password should be hashed, and hence you can't compare the user provided passsword and the database password
   if (user) {
-    const token = jwt.sign(
-      {
-        id: user._id,
-      },
+    const token = jwt.sign({ id: user._id,},
       JWT_USER_PASSWORD
     );
 
@@ -61,8 +58,15 @@ export const Signin = async (req, res) => {
   //Do cookie login instead of token based in future
 };
 
-export const Purchase = (req, res) => {
+export const Purchase =async (req, res) => {
+  const userId = req.userId;
+
+  const purchases = await purchaseModel.find({
+    userId
+  })
+  
   res.json({
-    message: "Purchase endpoint",
+    success: true,
+    purchases
   });
 };
