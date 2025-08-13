@@ -5,17 +5,17 @@ import jwt from "jsonwebtoken";
 
 
 export const Signup = async (req, res) => {
-//  TO do: Password Hashed
+  // TO do: Password Hashed
 
-   const saltRounds = 10;
-   const salt = await bcrypt.genSalt(saltRounds);
-   const hashedPassword = await bcrypt.hash(password, salt);
+  //  const saltRounds = 10;
+  //  const salt = await bcrypt.genSalt(saltRounds);
+  //  const hashedPassword = await bcrypt.hash(password, salt);
 
   try {
     const { email, password, lastName, firstName } = req.body; // do ZOD validation
     await adminModel.create({
       email: email,
-      password: hashedPassword,
+      password: password,
       lastName: lastName,
       firstName: firstName,
     });
@@ -32,51 +32,30 @@ export const Signup = async (req, res) => {
   }
 };
 export const Signin = async (req, res) => {
+  const { email, password } = req.body;
 
-  try {
-    const { email, password } = req.body;
+  const admin = await adminModel.findOne({
+    email: email,
+    password: password,
+  });
 
-    //Find admin only by admin
-    const admin = await adminModel.findOne({
-      email: email,
-    });
+  // ideally password should be hashed, and hence you can't compare the user provided passsword and the database password
+  if (admin) {
+    const token = jwt.sign(
+      {
+        id: admin._id,
+      },
+      JWT_ADMIN_PASSWORD
+    );
 
-    if (!admin) {
-     return res.status(403).json({
-        success: false,
-        message: "Invalid Credentails"
-      })
-    }
-
-    // Compare the entered password with hashed password in DB
-    const hashedPassword = admin.password;
-    const isPasswordValid =await bcrypt.compare(password, hashedPassword)
-
-    if (isPasswordValid) {
-      const token = jwt.sign(
-        {
-          id: admin._id,
-        },
-        JWT_ADMIN_PASSWORD
-      );
-
-      res.json({
-        token: token,
-      });
-    } else {
-      res.status(403).json({
-        message: "Incorrect credentials",
-      });
-    }
-  } catch (error) {
-    console.log(error)
     res.json({
-      success: false,
-      message: error.message,
-    })
-    
+      token: token,
+    });
+  } else {
+    res.status(403).json({
+      message: "Incorrect credentials",
+    });
   }
- 
 
   //Do cookie login instead of token based in future
 };
@@ -126,8 +105,8 @@ export const updateCourse = async (req, res) => {
 export const courseBulk = async (req, res) => {
   const adminId = req.userId;
 
-  const courses = await courseModel.findById({
-    createrId: adminId,
+  const courses = await courseModel.find({
+    creatorId: adminId,
   });
 
   res.json({
