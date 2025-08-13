@@ -3,19 +3,19 @@ import { adminModel, courseModel } from "../db.js";
 import { JWT_ADMIN_PASSWORD } from "../config.js";
 import jwt from "jsonwebtoken";
 
-
 export const Signup = async (req, res) => {
   // TO do: Password Hashed
 
-  //  const saltRounds = 10;
-  //  const salt = await bcrypt.genSalt(saltRounds);
-  //  const hashedPassword = await bcrypt.hash(password, salt);
-
   try {
     const { email, password, lastName, firstName } = req.body; // do ZOD validation
+
+    const saltRounds = 10;
+    const salt = await bcrypt.genSalt(saltRounds);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     await adminModel.create({
       email: email,
-      password: password,
+      password: hashedPassword,
       lastName: lastName,
       firstName: firstName,
     });
@@ -32,28 +32,44 @@ export const Signup = async (req, res) => {
   }
 };
 export const Signin = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
 
-  const admin = await adminModel.findOne({
-    email: email,
-    password: password,
-  });
-
-  // ideally password should be hashed, and hence you can't compare the user provided passsword and the database password
-  if (admin) {
-    const token = jwt.sign(
-      {
-        id: admin._id,
-      },
-      JWT_ADMIN_PASSWORD
-    );
-
-    res.json({
-      token: token,
+    const admin = await adminModel.findOne({
+      email: email,
     });
-  } else {
-    res.status(403).json({
-      message: "Incorrect credentials",
+
+    if (!admin) {
+      return res.status(403).json({
+        success: false,
+        message: "Invalid Credentails",
+      });
+    }
+
+    // Compare the entered password with hashed password in DB
+    const hashedPassword = admin.password;
+    const isPasswordValid = await bcrypt.compare(password, hashedPassword);
+    if (isPasswordValid) {
+      const token = jwt.sign(
+        {
+          id: admin._id,
+        },
+        JWT_ADMIN_PASSWORD
+      );
+
+      res.json({
+        token: token,
+      });
+    } else {
+      res.status(403).json({
+        message: "Incorrect credentials",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 
