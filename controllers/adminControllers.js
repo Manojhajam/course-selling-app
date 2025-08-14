@@ -81,7 +81,7 @@ export const createCourse = async (req, res) => {
   //Youtube video for creating a web3 saas in 6 hours (for imageUrl)
   const { title, description, imageUrl, price } = req.body;
   const course = await courseModel.create({
-    tittle: title,
+    title: title,
     description: description,
     imageUrl: imageUrl,
     price: price,

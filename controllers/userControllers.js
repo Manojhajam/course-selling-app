@@ -1,8 +1,8 @@
 import { purchaseModel, userModel } from "../db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-// import { JWT_USER_PASSWORD } from "../config.js";
-const JWT_USER_PASSWORD = "dhjdsjk"
+import { JWT_USER_PASSWORD } from "../config.js";
+
 
 export const Signup = async (req, res) => {
   const { email, password, lastName, firstName } = req.body; // do ZOD validation
@@ -58,7 +58,7 @@ export const Signin = async (req, res) => {
   //Do cookie login instead of token based in future
 };
 
-export const Purchase =async (req, res) => {
+export const Purchase = async (req, res) => {
   const userId = req.userId;
 
   const purchases = await purchaseModel.find({

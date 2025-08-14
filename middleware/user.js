@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken"
 import { JWT_USER_PASSWORD } from "../config.js"
 
+
 function userMiddleware(req, res, next) {
     const token = req.headers.token;
     const decoded = jwt.verify(token, JWT_USER_PASSWORD)
@@ -16,4 +17,4 @@ function userMiddleware(req, res, next) {
     }
 }
 
-export  default userMiddleware;
+export default userMiddleware;
